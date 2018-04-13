@@ -1,6 +1,7 @@
 variable "name" {
   type        = "string"
   description = "Unique name"
+  default = "devoxx"
 }
 
 variable "host_cidr" {
@@ -17,11 +18,12 @@ variable "instance_type" {
 
 variable "instance_ami" {
   type        = "string"
-  default     = "ami-f90a4880"
+  default     = "ami-bfff49c2"
   description = "EC2 ami"
 }
 
-variable "instance_keypair" {
+variable "public_key_path" {
   type        = "string"
   description = "Public Key for SSH connexion"
+  default = "../devoxx.key.pub"
 }

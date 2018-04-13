@@ -17,8 +17,8 @@ data "aws_subnet" "devoxx_subnet_details" {
 }
 
 resource "aws_key_pair" "keypair" {
-  key_name   = "keypair-key"
-  public_key = "${var.instance_keypair}"
+  key_name   = "devoxx-keypair"
+  public_key = "${file(var.public_key_path)}"
 }
 
 
