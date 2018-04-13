@@ -17,7 +17,7 @@ Il s'agit de valider que vous avez bien accès à votre compte AWS via vos clés
 l'option `Environment variables` puisque c'est celle que nous avons prise. Les autres risquent de vous forcer à éditer du
 code à chaque étape.
 
-* Placez vous dans le répertoire `step_0`
+* Placez vous dans le répertoire `step-0`
 
 * Lancez les commandes:
 ```
@@ -47,3 +47,20 @@ Si c'est le cas, Terraform arrive à s'authentifier auprès d'AWS. Bravo.
 
 Nous allons maintenant déployer le réseau nécessaire pour notre projet.
 
+* Placez vous dans le répertoire `step-1`
+
+* Lancez la commande `terraform init`
+
+* Parcourez attentivement et effectuez les TODO contenus dans les fichiers :
+
+  * `providers.tf`
+  * `variables.tf`
+
+* Si vous faites les choses bien vous devriez être en mesure de lancer successivement:
+
+```
+terraform plan
+terraform apply
+```
+
+Si c'est le cas

@@ -1,10 +1,29 @@
-variable "name" {
-  type        = "string"
-  description = "Unique name"
-}
+#
+# TODO: Créer ici une variable de type string, nommée 'project_name' avec comme valeur par défaut 'devoxx'
+#
+# Hints: https://www.terraform.io/docs/configuration/variables.html
+#
+# variable "project_name" {
+#  ...
+# }
 
-variable "host_cidr" {
+variable "project_name" {
   description = "CIDR IPv4 range to assign to EC2"
   type        = "string"
-  default     = "10.0.0.0/16"
+  default     = "devoxx"
+}
+
+#
+# TODO: Créer ici une variable de type string, nommée 'vpc_cidr' avec comme valeur par défaut '10.10.0.0/16'
+#
+# Hints: https://www.terraform.io/docs/configuration/variables.html
+#
+# variable "vpc_cidr" {
+#  ...
+# }
+
+variable "vpc_cidr" {
+  description = "CIDR IPv4 range to assign to EC2"
+  type        = "string"
+  default     = "10.10.0.0/16"
 }
