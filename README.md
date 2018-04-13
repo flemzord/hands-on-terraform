@@ -24,22 +24,20 @@ code à chaque étape.
 ```
 terraform init
 terraform plan
+terraform apply
 ```
 
 Vous devriez voir une sortie identique à celle-ci :
 ```
-Refreshing Terraform state in-memory prior to plan...
-The refreshed state will be used to calculate this plan, but will not be
-persisted to local or remote state storage.
+data.aws_caller_identity.current: Refreshing state...
 
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 
-------------------------------------------------------------------------
+Outputs:
 
-No changes. Infrastructure is up-to-date.
-
-This means that Terraform did not detect any differences between your
-configuration and real physical resources that exist. As a result, no
-actions need to be performed.
+account_id = ...
+caller_arn = ...
+caller_user = ...
 ```
 
 Si c'est le cas, Terraform arrive à s'authentifier auprès d'AWS. Bravo.
@@ -74,4 +72,3 @@ pour s'y connecter.
 ```
 ssh-keygen -t rsa -b 2048 -N "" -f devoxx.key && chmod 600 devoxx.key
 ```
-
