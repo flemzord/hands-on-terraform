@@ -4,3 +4,5 @@ terraform.tfstate*
 .idea
 *.iml
 *.iws
+*.key
+*.key.pub

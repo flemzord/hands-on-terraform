@@ -1,13 +1,14 @@
 # Hands on Terraform
 
 Cet ensemble d'exercices a été initié pour une session donnée à Devoxx 2018. Pour dérouler ce hands-on
-vous aurez besoin de vous munir de :
+vous aurez besoin :
 
-* vos clés d'API AWS
-* binaire Terraform ([installer](https://www.terraform.io/downloads.html))
+* d'un compte AWS et de vos clés d'API AWS
+* *Sous Windows*: d'installer [Git For Windows](https://gitforwindows.org/) et de lancer Git Bash pour lancer les commandes listées
+dans ce tutoriel.
+* du binaire Terraform ([installer](https://www.terraform.io/downloads.html))
 * un éditeur de code. Si vous n'avez pas de préférence, nous vous conseillons [Pycharm](https://www.jetbrains.com/pycharm/download/#section=linux)
 additionné du plugin [Terraform/HCL](https://plugins.jetbrains.com/plugin/7808-hashicorp-terraform--hcl-language-support)
-
 
 ## Step 0 : Provider AWS
 
@@ -49,8 +50,6 @@ Nous allons maintenant déployer le réseau nécessaire pour notre projet.
 
 * Placez vous dans le répertoire `step-1`
 
-* Lancez la commande `terraform init`
-
 * Parcourez attentivement et effectuez les TODO contenus dans les fichiers :
 
   * `providers.tf`
@@ -59,8 +58,20 @@ Nous allons maintenant déployer le réseau nécessaire pour notre projet.
 * Si vous faites les choses bien vous devriez être en mesure de lancer successivement:
 
 ```
+terraform init
 terraform plan
 terraform apply
 ```
 
-Si c'est le cas
+Si c'est le cas. Bravo, vous avez maintenant un espace réseau dans lequel déployer des instances!
+
+## Step 2 : Première instance
+
+Nous allons passer aux choses sérieuses et déployer notre prenier serveur EC2. Pour cela il va falloir créer une clé rsa
+pour s'y connecter.
+
+* Placez vous à la racine du projet et lancez :
+```
+ssh-keygen -t rsa -b 2048 -N "" -f devoxx.key && chmod 600 devoxx.key
+```
+
