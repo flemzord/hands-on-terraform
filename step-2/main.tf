@@ -1,26 +1,8 @@
-#
-# TODO: Ecrire une datasource de type aws_vpc pour récupérer le vpc créé au step-1
-# Hints:
-#   https://www.terraform.io/docs/providers/aws/d/vpc.html
-#
-data "aws_vpc" "devoxx_vpc" {
-  cidr_block = "10.10.0.0/16"
-}
-
-data "aws_subnet_ids" "devoxx_subnets" {
-  vpc_id = "${data.aws_vpc.devoxx_vpc.id}"
-}
-
-data "aws_subnet" "devoxx_subnet_details" {
-  count = "${length(data.aws_subnet_ids.devoxx_subnets.ids)}"
-  id    = "${data.aws_subnet_ids.devoxx_subnets.ids[count.index]}"
-}
 
 resource "aws_key_pair" "keypair" {
   key_name   = "devoxx-keypair"
   public_key = "${file(var.public_key_path)}"
 }
-
 
 resource "aws_security_group" "allow_all" {
   name        = "allow_all"
@@ -78,6 +60,7 @@ resource "aws_instance" "instance" {
   associate_public_ip_address = true
   subnet_id                   = "${element(data.aws_subnet.devoxx_subnet_details.*.id, 0)}"
   vpc_security_group_ids      = ["${aws_security_group.allow_all.id}"]
+
 
   lifecycle {
     ignore_changes = ["ami"]

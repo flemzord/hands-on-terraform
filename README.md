@@ -72,3 +72,26 @@ pour s'y connecter.
 ```
 ssh-keygen -t rsa -b 2048 -N "" -f devoxx.key && chmod 600 devoxx.key
 ```
+
+* Parcourez les mentions TODO dans le code terraform avec pour objectif de faire passer:
+
+```
+terraform init
+terraform plan
+terraform apply
+```
+
+Si vous passez cet exercice avec succès, vous devriew pouvoir vous connecter en ssh à votre instance avec la commande:
+```
+# Lancer depuis la racine du projet
+ssh $(terraform output -state=step-2/terraform.tfstate instance_ip) -l centos -i devoxx.key
+```
+
+## Step 3 : Load balancing
+
+enregistrer instance step-2 et une nouvelle dans un ALB
+
+## Step 4 : Autoscaling
+
+detruire step3 et 4 et remplacer par autoscaling de taille 2
+avec une launch config et une pae index.html qui affiche l'id d'instance (curl metadata redirection path correct)
