@@ -18,36 +18,35 @@ resource "aws_security_group" "allow_all" {
 }
 
 resource "aws_security_group_rule" "allow_all_in" {
-  type            = "ingress"
-  from_port       = 0
-  to_port         = 0
-  protocol        = "-1"
-  cidr_blocks     = ["0.0.0.0/0"]
+  type        = "ingress"
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = "${aws_security_group.allow_all.id}"
 }
 
 resource "aws_security_group_rule" "allow_all_out" {
-  type            = "egress"
-  from_port       = 0
-  to_port         = 0
-  protocol        = "-1"
-  cidr_blocks     = ["0.0.0.0/0"]
+  type        = "egress"
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = "${aws_security_group.allow_all.id}"
 }
 
 resource "aws_lb" "test" {
-  name            = "devoxx-lb"
-  internal        = false
+  name     = "devoxx-lb"
+  internal = false
 
   security_groups = [
-    "${aws_security_group.allow_all.id}"
+    "${aws_security_group.allow_all.id}",
   ]
 
-  subnets         = ["${data.aws_subnet.devoxx_subnet_details.*.id}"]
+  subnets = ["${data.aws_subnet.devoxx_subnet_details.*.id}"]
 }
-
 
 resource "aws_lb_target_group" "test" {
   name     = "devoxx-tg"
@@ -75,17 +74,19 @@ resource "aws_lb_listener" "front_end" {
 #   https://docs.aws.amazon.com/fr_fr/AWSEC2/latest/UserGuide/user-data.html
 #
 resource "aws_launch_configuration" "lc" {
-  name = "${var.name}-lc"
-  image_id = "${var.instance_ami}"
-  instance_type = "${var.instance_type}"
-  key_name = "${aws_key_pair.keypair.key_name}"
+  name            = "${var.name}-lc"
+  image_id        = "${var.instance_ami}"
+  instance_type   = "${var.instance_type}"
+  key_name        = "${aws_key_pair.keypair.key_name}"
   security_groups = ["${aws_security_group.allow_all.id}"]
+
   user_data = <<EOF
 #cloud-config
 runcmd:
   - yum install -y httpd
   - curl http://169.254.169.254/latest/meta-data/instance-id > /var/www/html/index.html
   - systemctl start httpd
+  - systemctl enable httpd
 EOF
 }
 
@@ -95,20 +96,21 @@ EOF
 #   https://www.terraform.io/docs/providers/aws/r/autoscaling_group.html
 #
 resource "aws_autoscaling_group" "asg" {
-  name = "${var.name}-asg"
-  max_size = 2
-  min_size = 2
-  desired_capacity = 2
+  name                      = "${var.name}-asg"
+  max_size                  = 2
+  min_size                  = 2
+  desired_capacity          = 2
   health_check_grace_period = 300
-  health_check_type = "EC2"
-  launch_configuration = "${aws_launch_configuration.lc.name}"
-  target_group_arns = ["${aws_lb_target_group.test.arn}"]
-  vpc_zone_identifier = ["${data.aws_subnet.devoxx_subnet_details.*.id}"]
+  health_check_type         = "EC2"
+  launch_configuration      = "${aws_launch_configuration.lc.name}"
+  target_group_arns         = ["${aws_lb_target_group.test.arn}"]
+  vpc_zone_identifier       = ["${data.aws_subnet.devoxx_subnet_details.*.id}"]
+
   tags = [
     {
       key                 = "Name"
       value               = "${var.name}-asg"
       propagate_at_launch = true
-    }
+    },
   ]
 }
