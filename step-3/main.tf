@@ -39,3 +39,30 @@ resource "aws_lb_listener" "front_end" {
     type             = "forward"
   }
 }
+
+resource "aws_instance" "instance2" {
+  tags = {
+    Name = "${var.name}"
+  }
+
+  instance_type = "${var.instance_type}"
+
+  ami      = "${var.instance_ami}"
+  key_name = "${data.terraform_remote_state.step2.keypair_name}"
+
+  # network
+  associate_public_ip_address = true
+  subnet_id                   = "${element(data.aws_subnet.devoxx_subnet_details.*.id, 0)}"
+  vpc_security_group_ids      = ["${data.terraform_remote_state.step2.security_group_id}"]
+
+
+  lifecycle {
+    ignore_changes = ["ami"]
+  }
+}
+
+resource "aws_lb_target_group_attachment" "test2" {
+  target_group_arn = "${aws_lb_target_group.test.arn}"
+  target_id        = "${aws_instance.instance2.id}"
+  port             = 80
+}
