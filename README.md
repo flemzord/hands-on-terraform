@@ -90,8 +90,10 @@ ssh $(terraform output -state=step-2/terraform.tfstate instance_ip) -l centos -i
 ## Step 3 : Load balancing
 
 enregistrer instance step-2 et une nouvelle dans un ALB
+Problème d'instance unhealthy si l'enregistrement dans le target group se fait avant la disponibilité du port HTTP. Comment régler cela ? Comment éviter
+la reproduction du problème
 
 ## Step 4 : Autoscaling
 
-detruire step3 et 4 et remplacer par autoscaling de taille 2
+detruire step2 et 3 et remplacer par autoscaling de taille 2
 avec une launch config et une pae index.html qui affiche l'id d'instance (curl metadata redirection path correct)
