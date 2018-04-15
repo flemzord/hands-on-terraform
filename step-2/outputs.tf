@@ -24,3 +24,7 @@ output "instance_id" {
 output "security_group_id" {
   value = "${aws_security_group.allow_all.id}"
 }
+
+output "keypair_name" {
+  value = "${aws_key_pair.keypair.key_name}"
+}
