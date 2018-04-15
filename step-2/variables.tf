@@ -1,7 +1,7 @@
 variable "name" {
   type        = "string"
   description = "Unique name"
-  default = "devoxx"
+  default     = "devoxx"
 }
 
 variable "host_cidr" {
@@ -25,5 +25,5 @@ variable "instance_ami" {
 variable "public_key_path" {
   type        = "string"
   description = "Public Key for SSH connexion"
-  default = "../devoxx.key.pub"
+  default     = "../devoxx.key.pub"
 }

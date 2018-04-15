@@ -1,4 +1,3 @@
-
 resource "aws_key_pair" "keypair" {
   key_name   = "devoxx-keypair"
   public_key = "${file(var.public_key_path)}"
@@ -21,11 +20,11 @@ resource "aws_security_group" "allow_all" {
 #   https://www.terraform.io/docs/providers/aws/r/security_group_rule.html
 #
 resource "aws_security_group_rule" "allow_all_in" {
-  type            = "ingress"
-  from_port       = 0
-  to_port         = 0
-  protocol        = "-1"
-  cidr_blocks     = ["0.0.0.0/0"]
+  type        = "ingress"
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = "${aws_security_group.allow_all.id}"
 }
@@ -37,11 +36,11 @@ resource "aws_security_group_rule" "allow_all_in" {
 #   https://www.terraform.io/docs/providers/aws/r/security_group_rule.html
 #
 resource "aws_security_group_rule" "allow_all_out" {
-  type            = "egress"
-  from_port       = 0
-  to_port         = 0
-  protocol        = "-1"
-  cidr_blocks     = ["0.0.0.0/0"]
+  type        = "egress"
+  from_port   = 0
+  to_port     = 0
+  protocol    = "-1"
+  cidr_blocks = ["0.0.0.0/0"]
 
   security_group_id = "${aws_security_group.allow_all.id}"
 }
@@ -61,10 +60,7 @@ resource "aws_instance" "instance" {
   subnet_id                   = "${element(data.aws_subnet.devoxx_subnet_details.*.id, 0)}"
   vpc_security_group_ids      = ["${aws_security_group.allow_all.id}"]
 
-
   lifecycle {
     ignore_changes = ["ami"]
   }
 }
-
-
