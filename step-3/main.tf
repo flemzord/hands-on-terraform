@@ -53,6 +53,15 @@ resource "aws_instance" "instance2" {
   subnet_id                   = "${element(data.aws_subnet.devoxx_subnet_details.*.id, 0)}"
   vpc_security_group_ids      = ["${data.terraform_remote_state.step2.security_group_id}"]
 
+  user_data = <<EOF
+#cloud-config
+runcmd:
+  - yum install -y httpd
+  - curl http://169.254.169.254/latest/meta-data/instance-id > /var/www/html/index.html
+  - systemctl start httpd
+  - systemctl enable httpd
+EOF
+
   lifecycle {
     ignore_changes = ["ami"]
   }

@@ -81,7 +81,7 @@ terraform plan
 terraform apply
 ```
 
-Si vous passez cet exercice avec succès, vous devriew pouvoir vous connecter en ssh à votre instance avec la commande:
+Si vous passez cet exercice avec succès, vous devriez pouvoir vous connecter en ssh à votre instance avec la commande:
 ```
 # Lancer depuis la racine du projet
 ssh $(terraform output -state=step-2/terraform.tfstate instance_ip) -l centos -i devoxx.key
