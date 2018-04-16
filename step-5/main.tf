@@ -1,6 +1,9 @@
 #
-# TODO: Reprendre les éléments nécessaires des étapes précédentes 
+# TODO: Reprendre les éléments nécessaires des étapes précédentes. Il va vous falloir:
+# * la keypair à assigner aux instances
+# * un security_group à appliquer aux instances
 #
+# Vous pouvez au choix: les copier ou vous y raccorder via des requêtes datasources.
 #
 resource "aws_key_pair" "keypair" {
   key_name   = "devoxx-keypair"
@@ -37,6 +40,7 @@ resource "aws_security_group_rule" "allow_all_out" {
   security_group_id = "${aws_security_group.allow_all.id}"
 }
 
+
 resource "aws_lb" "apache" {
   name     = "devoxx-lb"
   internal = false
@@ -48,6 +52,11 @@ resource "aws_lb" "apache" {
   subnets = ["${data.aws_subnet.devoxx_subnet_details.*.id}"]
 }
 
+#
+# TODO: Créer une ressource aws_lb_target_group nommée 'apache' qui permette de laisser passer
+# du protocole HTTP sur le port 80.
+#
+#
 resource "aws_lb_target_group" "apache" {
   name     = "devoxx-tg"
   port     = 80
@@ -76,7 +85,18 @@ resource "aws_lb_listener" "front_end" {
 
 #
 # TODO: Ecrire une ressource de type aws_launch_configuration, qui définira nos instances
-# Ce qui était fait manuellement précédemment sur les instances sera lancé au démarrage
+# Ce qui était fait manuellement précédemment sur les instances sera lancé au démarrage.
+# Le script e démarrage doit être le suivant :
+#
+#  user_data = <<EOF
+#  #cloud-config
+#  runcmd:
+#    - yum install -y httpd
+#    - curl http://169.254.169.254/latest/meta-data/instance-id > /var/www/html/index.html
+#    - systemctl start httpd
+#    - systemctl enable httpd
+#  EOF
+#
 # Hints:
 #   https://www.terraform.io/docs/providers/aws/r/launch_configuration.html
 #   https://docs.aws.amazon.com/fr_fr/AWSEC2/latest/UserGuide/user-data.html
@@ -100,7 +120,8 @@ EOF
 
 #
 # TODO: Ecrire une ressource de type aws_autoscaling_group, de capacité 2, relié à la
-# ressource target_group
+# ressource target_group et à notre launch configuration.
+#
 # Hints:
 #   https://www.terraform.io/docs/providers/aws/r/autoscaling_group.html
 #
