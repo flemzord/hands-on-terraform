@@ -3,9 +3,6 @@
 # Hints:
 #   https://www.terraform.io/docs/providers/aws/d/vpc.html
 #
-data "aws_vpc" "devoxx_vpc" {
-  cidr_block = "10.10.0.0/16"
-}
 
 data "aws_subnet_ids" "devoxx_subnets" {
   vpc_id = "${data.aws_vpc.devoxx_vpc.id}"
