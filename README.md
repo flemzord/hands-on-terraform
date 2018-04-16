@@ -94,16 +94,16 @@ ssh $(terraform output -state=step-2/terraform.tfstate instance_ip) -l centos -i
 
 ## Step 3 : Load balancing
 
-enregistrer instance step-2 et une nouvelle dans un ALB
-Problème d'instance unhealthy si l'enregistrement dans le target group se fait avant la disponibilité du port HTTP. Comment régler cela ? Comment éviter
-la reproduction du problème
+Ici vous allez ajouter une autre instance et enregistrer ces 2 instances dans un load-balancer.
+
+Vous pourrez constater que vous avez réussi lorsque vous vous rendrez à l'adresse qui apparait dans les outputs de
+cette stack.
 
 
+## Step 4 : Bucket S3
 
-## Step 4 : Configuration du Backend
-
-Ajouter le fichier backend.tf dans votre projet pour configurer le stockage des tfstate dans un bucket s3.    
-Vous devez faire un ``` terraform init ``` pour configurer celui-ci.
+Ici vous allez créer un bucket S3 qui servira à la prochaine étape pour stocker vos tfstates. Encore une fois,
+laissez vous guider par les TODO et déroulez le workflow complet.
 
 
 
@@ -129,3 +129,11 @@ les steps.
 Vous trouverez de l'aide ici :
 
 * [Terraform doc - assigning variables](https://www.terraform.io/intro/getting-started/variables.html#from-a-file)
+
+## Step 7 : Modulariser
+
+* Nettoyer toutes vos stacks terraform
+* Reprendre le code du step-1 et extraire le code dans un module qui doit pouvoir être appelé de la sorte :
+```
+
+```

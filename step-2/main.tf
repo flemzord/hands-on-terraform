@@ -45,6 +45,20 @@ resource "aws_security_group_rule" "allow_all_out" {
   security_group_id = "${aws_security_group.allow_all.id}"
 }
 
+#
+# TODO: Créer une instance ec2 en piochant certaines valeurs d'attribut dans variables.tf
+# Le security_group doit être celui pour lequel ous avez créé des règles.
+# Le script de démarrage doit être le suivant :
+#
+#  user_data = <<EOF
+#  #cloud-config
+#  runcmd:
+#    - yum install -y httpd
+#    - curl http://169.254.169.254/latest/meta-data/instance-id > /var/www/html/index.html
+#    - systemctl start httpd
+#    - systemctl enable httpd
+#  EOF
+#
 resource "aws_instance" "instance" {
   tags = {
     Name = "${var.name}"

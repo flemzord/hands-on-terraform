@@ -40,7 +40,6 @@ resource "aws_security_group_rule" "allow_all_out" {
   security_group_id = "${aws_security_group.allow_all.id}"
 }
 
-
 resource "aws_lb" "apache" {
   name     = "devoxx-lb"
   internal = false
