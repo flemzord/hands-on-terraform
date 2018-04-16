@@ -7,11 +7,6 @@
 #  ...
 # }
 
-variable "project_name" {
-  description = "CIDR IPv4 range to assign to EC2"
-  type        = "string"
-  default     = "devoxx"
-}
 
 #
 # TODO: Créer ici une variable de type string, nommée 'vpc_cidr' avec comme valeur par défaut '10.10.0.0/16'
@@ -21,9 +16,3 @@ variable "project_name" {
 # variable "vpc_cidr" {
 #  ...
 # }
-
-variable "vpc_cidr" {
-  description = "CIDR IPv4 range to assign to EC2"
-  type        = "string"
-  default     = "10.10.0.0/16"
-}

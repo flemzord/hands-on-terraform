@@ -53,7 +53,7 @@ resource "aws_subnet" "public" {
   #
   # TODO: Remplir l'attribut vpc_id avec l'attribut 'id' de la ressource 'network' de type 'aws_vpc'
   #
-  vpc_id = "${aws_vpc.network.id}"
+
 
   #
   # Utilisation de l'index de count pour attribuer une AZ différente à chacun des subnets créé.
