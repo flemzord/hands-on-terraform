@@ -5,13 +5,7 @@
 # Hints:
 #   https://www.terraform.io/docs/backends/types/local.html
 #
-data "terraform_remote_state" "step2" {
-  backend = "local"
 
-  config {
-    path = "${path.module}/../step-2/terraform.tfstate"
-  }
-}
 
 data "aws_vpc" "devoxx_vpc" {
   cidr_block = "10.10.0.0/16"

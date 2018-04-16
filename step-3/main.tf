@@ -5,18 +5,6 @@
 # Hints:
 #   https://www.terraform.io/docs/providers/aws/r/lb.html
 #
-resource "aws_lb" "first" {
-  name     = "devoxx-lb"
-  internal = false
-
-  security_groups = [
-    "${data.terraform_remote_state.step2.security_group_id}",
-  ]
-
-  subnets = [
-    "${data.aws_subnet.devoxx_subnet_details.*.id}",
-  ]
-}
 
 resource "aws_lb_target_group" "first_tg" {
   name     = "devoxx-tg"
@@ -56,34 +44,6 @@ resource "aws_lb_listener" "front_end" {
 #    - systemctl enable httpd
 #  EOF
 #
-resource "aws_instance" "instance_2" {
-  tags = {
-    Name = "${var.name}"
-  }
-
-  instance_type = "${var.instance_type}"
-
-  ami      = "${var.instance_ami}"
-  key_name = "${data.terraform_remote_state.step2.keypair_name}"
-
-  # network
-  associate_public_ip_address = true
-  subnet_id                   = "${element(data.aws_subnet.devoxx_subnet_details.*.id, 0)}"
-  vpc_security_group_ids      = ["${data.terraform_remote_state.step2.security_group_id}"]
-
-  user_data = <<EOF
-#cloud-config
-runcmd:
-  - yum install -y httpd
-  - curl http://169.254.169.254/latest/meta-data/instance-id > /var/www/html/index.html
-  - systemctl start httpd
-  - systemctl enable httpd
-EOF
-
-  lifecycle {
-    ignore_changes = ["ami"]
-  }
-}
 
 #
 # TODO: Attacher l'instance créée au target_group 'first_tg'
@@ -91,8 +51,3 @@ EOF
 # Hints:
 #   https://www.terraform.io/docs/providers/aws/r/lb_target_group_attachment.html
 #
-resource "aws_lb_target_group_attachment" "instance_2" {
-  target_group_arn = "${aws_lb_target_group.first_tg.arn}"
-  target_id        = "${aws_instance.instance_2.id}"
-  port             = 80
-}
