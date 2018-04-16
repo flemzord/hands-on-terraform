@@ -3,7 +3,7 @@
 #
 #
 resource "aws_key_pair" "keypair" {
-  key_name   = "devoxx-keypair-2"
+  key_name   = "devoxx-keypair"
   public_key = "${file(var.public_key_path)}"
 }
 
@@ -37,7 +37,7 @@ resource "aws_security_group_rule" "allow_all_out" {
   security_group_id = "${aws_security_group.allow_all.id}"
 }
 
-resource "aws_lb" "test" {
+resource "aws_lb" "apache" {
   name     = "devoxx-lb"
   internal = false
 
@@ -48,8 +48,8 @@ resource "aws_lb" "test" {
   subnets = ["${data.aws_subnet.devoxx_subnet_details.*.id}"]
 }
 
-resource "aws_lb_target_group" "test" {
-  name     = "devoxx-tg-2"
+resource "aws_lb_target_group" "apache" {
+  name     = "devoxx-tg"
   port     = 80
   protocol = "HTTP"
   vpc_id   = "${data.aws_vpc.devoxx_vpc.id}"
@@ -64,12 +64,12 @@ resource "aws_lb_target_group" "test" {
 }
 
 resource "aws_lb_listener" "front_end" {
-  load_balancer_arn = "${aws_lb.test.arn}"
+  load_balancer_arn = "${aws_lb.apache.arn}"
   port              = "80"
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = "${aws_lb_target_group.test.arn}"
+    target_group_arn = "${aws_lb_target_group.apache.arn}"
     type             = "forward"
   }
 }
@@ -99,7 +99,8 @@ EOF
 }
 
 #
-# TODO: Ecrire une ressource de type aws_autoscaling_group, de capacité 2, relié à la ressource target_group
+# TODO: Ecrire une ressource de type aws_autoscaling_group, de capacité 2, relié à la
+# ressource target_group
 # Hints:
 #   https://www.terraform.io/docs/providers/aws/r/autoscaling_group.html
 #
@@ -111,8 +112,14 @@ resource "aws_autoscaling_group" "asg" {
   health_check_grace_period = 300
   health_check_type         = "EC2"
   launch_configuration      = "${aws_launch_configuration.lc.name}"
-  target_group_arns         = ["${aws_lb_target_group.test.arn}"]
-  vpc_zone_identifier       = ["${data.aws_subnet.devoxx_subnet_details.*.id}"]
+
+  target_group_arns = [
+    "${aws_lb_target_group.apache.arn}",
+  ]
+
+  vpc_zone_identifier = [
+    "${data.aws_subnet.devoxx_subnet_details.*.id}",
+  ]
 
   tags = [
     {

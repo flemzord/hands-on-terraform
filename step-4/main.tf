@@ -9,11 +9,14 @@
 resource "aws_s3_bucket" "devoxx-bucket" {
   bucket = "${var.name}-bucket"
   acl    = "private"
+
   versioning {
     enabled = true
   }
+
   tags {
     Name = "${var.name}-bucket"
   }
+
   force_destroy = true
 }

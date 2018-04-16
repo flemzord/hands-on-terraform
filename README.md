@@ -42,7 +42,9 @@ caller_user = ...
 
 Si c'est le cas, Terraform arrive à s'authentifier auprès d'AWS. Bravo.
 
-## Step 1 : Réseau
+
+
+## Step 1 : Panorama réseau
 
 Nous allons maintenant déployer le réseau nécessaire pour notre projet.
 
@@ -63,6 +65,8 @@ terraform apply
 
 Si c'est le cas. Bravo, vous avez maintenant un espace réseau dans lequel déployer des instances!
 
+
+
 ## Step 2 : Première instance
 
 Nous allons passer aux choses sérieuses et déployer notre prenier serveur EC2. Pour cela il va falloir créer une clé rsa
@@ -74,7 +78,6 @@ ssh-keygen -t rsa -b 2048 -N "" -f devoxx.key && chmod 600 devoxx.key
 ```
 
 * Parcourez les mentions TODO dans le code terraform avec pour objectif de faire passer:
-
 ```
 terraform init
 terraform plan
@@ -87,25 +90,34 @@ Si vous passez cet exercice avec succès, vous devriez pouvoir vous connecter en
 ssh $(terraform output -state=step-2/terraform.tfstate instance_ip) -l centos -i devoxx.key
 ```
 
+
+
 ## Step 3 : Load balancing
 
 enregistrer instance step-2 et une nouvelle dans un ALB
 Problème d'instance unhealthy si l'enregistrement dans le target group se fait avant la disponibilité du port HTTP. Comment régler cela ? Comment éviter
 la reproduction du problème
 
+
+
 ## Step 4 : Configuration du Backend
 
 Ajouter le fichier backend.tf dans votre projet pour configurer le stockage des tfstate dans un bucket s3.    
 Vous devez faire un ``` terraform init ``` pour configurer celui-ci.
 
+
+
 ## Step 5 : Autoscaling & ALB
 
-* Détruire les step 3 et step 2 grâce à la commande (en vous plaçant dans les bon répertoires bien sûr) :
+* Détruire les step 3 et step 2 grâce à la commande (en vous plaçant dans les bons répertoires bien sûr) :
+
 ```
 terraform destroy
 ```
 
 * Placez vous dans le répertoire step-5 et déroulez les TODO présents pour arriver à appliquer le workflow standard init-plan-apply
+
+
 
 ## Step 6 : Consolider
 

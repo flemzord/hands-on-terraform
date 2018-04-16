@@ -60,7 +60,7 @@ resource "aws_instance" "instance" {
   subnet_id                   = "${element(data.aws_subnet.devoxx_subnet_details.*.id, 0)}"
   vpc_security_group_ids      = ["${aws_security_group.allow_all.id}"]
 
-    user_data = <<EOF
+  user_data = <<EOF
 #cloud-config
 runcmd:
   - yum install -y httpd
