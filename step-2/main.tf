@@ -68,7 +68,7 @@ runcmd:
   - systemctl start httpd
   - systemctl enable httpd
 EOF
-  
+
   lifecycle {
     ignore_changes = ["ami"]
   }

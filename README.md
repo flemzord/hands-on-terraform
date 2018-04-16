@@ -100,9 +100,20 @@ Vous devez faire un ``` terraform init ``` pour configurer celui-ci.
 
 ## Step 5 : Autoscaling & ALB
 
-detruire step2 et 3 et remplacer par autoscaling de taille 2
-avec une launch config et une page index.html qui affiche l'id d'instance (curl metadata redirection path correct)
+* Détruire les step 3 et step 2 grâce à la commande (en vous plaçant dans les bon répertoires bien sûr) :
+```
+terraform destroy
+```
 
-## Step 6 : CloudFront
+* Placez vous dans le répertoire step-5 et déroulez les TODO présents pour arriver à appliquer le workflow standard init-plan-apply
 
-Création d'un CloudFront qui renvoie sur le ALB
+## Step 6 : Consolider
+
+* Détruire chaque step en ordre inverse des déploiements.
+* Reprendre tous les fichiers `variables.tf` et en supprimer les valeurs par défaut.
+* Regrouper les valeurs dans un fichier tfvars â la racine du projet et le passer en ligne de commande pour redéployer tous
+les steps.
+
+Vous trouverez de l'aide ici :
+
+* [Terraform doc - assigning variables](https://www.terraform.io/intro/getting-started/variables.html#from-a-file)
