@@ -132,8 +132,14 @@ Vous trouverez de l'aide ici :
 
 ## Step 7 : Modulariser
 
-* Nettoyer toutes vos stacks terraform
+* Nettoyer toutes les stacks terraform
 * Reprendre le code du step-1 et extraire le code dans un module qui doit pouvoir être appelé de la sorte :
 ```
-
+module "network" {
+  source = "../step1-module"
+  vpc_cidr = "10.10.0.0/16"
+  ...
 ```
+Plus d'informations sur les modules ici : 
+* [Terraform doc - creating a module](https://www.terraform.io/docs/modules/create.html)
+* [Terraform doc - using a module](https://www.terraform.io/docs/modules/usage.html)
