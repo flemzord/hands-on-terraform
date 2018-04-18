@@ -55,7 +55,7 @@ Nous allons maintenant déployer le réseau nécessaire pour notre projet.
 
   * `providers.tf`
   * `variables.tf`
-  * `main.tf`
+  * `main.tf`
 
 * Si vous faites les choses bien vous devriez être en mesure de lancer successivement:
 
