@@ -9,6 +9,7 @@ dans ce tutoriel.
 * du binaire Terraform ([installer](https://www.terraform.io/downloads.html))
 * un éditeur de code. Si vous n'avez pas de préférence, nous vous conseillons [Pycharm](https://www.jetbrains.com/pycharm/download/#section=linux)
 additionné du plugin [Terraform/HCL](https://plugins.jetbrains.com/plugin/7808-hashicorp-terraform--hcl-language-support)
+* Nous utilisons la région Paris (eu-west-3) 
 
 ## Step 0 : Provider AWS
 
@@ -54,6 +55,7 @@ Nous allons maintenant déployer le réseau nécessaire pour notre projet.
 
   * `providers.tf`
   * `variables.tf`
+  * `main.tf`
 
 * Si vous faites les choses bien vous devriez être en mesure de lancer successivement:
 
